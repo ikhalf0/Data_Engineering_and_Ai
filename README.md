@@ -1,4 +1,4 @@
-# Diabetes Risk Prediction — Data Engineering & ML Pipeline
+# Diabetes Risk Prediction, Data Engineering & ML Pipeline
 
 ## Project Overview
 This project builds an end-to-end data engineering and machine learning pipeline
