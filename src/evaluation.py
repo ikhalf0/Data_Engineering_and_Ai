@@ -26,7 +26,7 @@ from itertools import combinations
 import numpy as np
 import pandas as pd
 from scipy import stats
-from sklearn.base import clone
+from sklearn.base import BaseEstimator, ClassifierMixin, clone
 from sklearn.metrics import (
     accuracy_score,
     average_precision_score,
@@ -256,6 +256,56 @@ def mcnemar_test(y_true, y_pred_a, y_pred_b):
     p = stats.chi2.sf(stat, df=1)
     return {"b": b, "c": c, "statistic": stat, "p_value": p,
             "method": "chi-square (continuity corrected)"}
+
+
+# ---------------------------------------------------------------------------
+# Class-imbalance handling
+# ---------------------------------------------------------------------------
+class BalancedUndersampler(BaseEstimator, ClassifierMixin):
+    """
+    Wraps any classifier so that the majority class is randomly
+    undersampled to the minority-class size before fitting.
+
+    This reproduces the balancing used in notebook 05, but does it inside
+    fit(), which means that during cross-validation the undersampling is
+    re-done on each training fold and never touches the validation fold.
+    Predictions are made on the untouched data.
+
+        model = BalancedUndersampler(RandomForestClassifier(random_state=42))
+    """
+
+    def __init__(self, estimator=None, random_state=RANDOM_STATE):
+        self.estimator = estimator
+        self.random_state = random_state
+
+    def fit(self, X, y):
+        y = np.asarray(y).astype(int)
+        rng = np.random.RandomState(self.random_state)
+
+        classes, counts = np.unique(y, return_counts=True)
+        n_keep = counts.min()
+
+        keep = []
+        for cls in classes:
+            idx = np.flatnonzero(y == cls)
+            if len(idx) > n_keep:
+                idx = rng.choice(idx, size=n_keep, replace=False)
+            keep.append(idx)
+        keep = np.sort(np.concatenate(keep))
+
+        X_bal = X.iloc[keep] if hasattr(X, "iloc") else np.asarray(X)[keep]
+
+        self.classes_ = classes
+        self.n_training_rows_ = len(keep)
+        self.estimator_ = clone(self.estimator)
+        self.estimator_.fit(X_bal, y[keep])
+        return self
+
+    def predict(self, X):
+        return self.estimator_.predict(X)
+
+    def predict_proba(self, X):
+        return self.estimator_.predict_proba(X)
 
 
 def _fold_matrix(cv_results, metric):
