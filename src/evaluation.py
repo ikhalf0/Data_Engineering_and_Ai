@@ -308,6 +308,72 @@ class BalancedUndersampler(BaseEstimator, ClassifierMixin):
         return self.estimator_.predict_proba(X)
 
 
+class SMOTENCResampler(BaseEstimator, ClassifierMixin):
+    """
+    Wraps any classifier so that SMOTENC oversampling is applied to the
+    training data before fitting.
+
+    This mirrors the SMOTENC dataset produced in notebook 05, but applies
+    the oversampling inside fit(). That matters for cross-validation: if
+    oversampling is done once before the folds are created, synthetic
+    records generated from a real record can end up in the training fold
+    while that real record sits in the validation fold, which leaks
+    information and inflates the scores. Resampling inside fit() means
+    each training fold is oversampled on its own and the validation fold
+    is never touched.
+
+    `categorical_features` is a list of column names. Every feature
+    except BMI is categorical in this dataset, matching notebook 05.
+    Count features (MentHlth, PhysHlth) are treated as categorical, so
+    SMOTENC copies existing values rather than interpolating, and no
+    rounding is needed.
+
+        model = SMOTENCResampler(GaussianNB(), categorical_features=cats)
+    """
+
+    def __init__(self, estimator=None, categorical_features=None,
+                 random_state=RANDOM_STATE):
+        self.estimator = estimator
+        self.categorical_features = categorical_features
+        self.random_state = random_state
+
+    def fit(self, X, y):
+        from imblearn.over_sampling import SMOTENC
+
+        y = np.asarray(y).astype(int)
+
+        if not hasattr(X, "columns"):
+            raise ValueError(
+                "SMOTENCResampler needs a DataFrame so that categorical "
+                "columns can be located by name."
+            )
+
+        if self.categorical_features is None:
+            categorical = [c for c in X.columns if c != "BMI"]
+        else:
+            categorical = list(self.categorical_features)
+
+        indices = [X.columns.get_loc(c) for c in categorical]
+
+        sampler = SMOTENC(
+            categorical_features=indices,
+            random_state=self.random_state,
+        )
+        X_resampled, y_resampled = sampler.fit_resample(X, y)
+
+        self.classes_ = np.unique(y)
+        self.n_training_rows_ = len(y_resampled)
+        self.estimator_ = clone(self.estimator)
+        self.estimator_.fit(X_resampled, y_resampled)
+        return self
+
+    def predict(self, X):
+        return self.estimator_.predict(X)
+
+    def predict_proba(self, X):
+        return self.estimator_.predict_proba(X)
+
+
 def _fold_matrix(cv_results, metric):
     """Folds as rows, models as columns."""
     return cv_results.pivot(index="fold", columns="model", values=metric)
