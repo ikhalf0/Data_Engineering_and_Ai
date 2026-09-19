@@ -1,0 +1,17 @@
+# eLCS environment (notebooks 04, 07)
+# Python 3.9 — scikit-eLCS does not run on recent Python versions
+#
+# python3.9 -m venv venv39
+# source venv39/bin/activate
+# pip install -r requirements-elcs.txt
+
+scikit-eLCS
+numpy<2
+pandas<2.1
+scikit-learn<1.4
+scipy<1.14
+imbalanced-learn<0.13
+matplotlib
+seaborn
+jupyter
+ipykernel
