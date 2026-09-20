@@ -22,6 +22,7 @@ Usage (from a notebook in notebooks/):
 
 import time
 from itertools import combinations
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -417,5 +418,129 @@ def pairwise_wilcoxon(cv_results, metric=PRIMARY_METRIC, alpha=0.05):
     m = len(table)
     adjusted = (table["p_value"] * (m - np.arange(m))).cummax().clip(upper=1)
     table["p_holm"] = adjusted
+    table["significant"] = table["p_holm"] < alpha
+    return table
+
+# ---------------------------------------------------------------------------
+# Reading saved results (for the Task 6 comparison)
+# ---------------------------------------------------------------------------
+RESULTS_DIR = "../results"
+
+
+def _prediction_filename(model_name):
+    """The filename evaluate_on_test results are saved under."""
+    return model_name.replace(" ", "_").replace("(", "").replace(")", "") + ".npy"
+
+
+def save_predictions(predictions, y_test, results_dir=RESULTS_DIR):
+    """
+    Save test-set predictions so that models run in different notebooks,
+    and in different Python environments, can still be compared without
+    being refitted.
+
+    `predictions` is a dict of {model name: predicted labels}.
+    """
+    directory = Path(results_dir) / "predictions"
+    directory.mkdir(parents=True, exist_ok=True)
+
+    for name, y_pred in predictions.items():
+        cleaned, _ = _clean_predictions(y_pred)
+        np.save(directory / _prediction_filename(name), cleaned)
+
+    np.save(directory / "y_test.npy", np.asarray(y_test).astype(int))
+    return directory
+
+
+def load_predictions(results_dir=RESULTS_DIR):
+    """
+    Load every saved prediction array.
+
+    Returns (predictions, y_test), where predictions is a dict keyed by
+    model name. Raises if the saved arrays are not all the same length as
+    y_test, which would mean they were produced on different test sets
+    and must not be compared.
+    """
+    directory = Path(results_dir) / "predictions"
+    y_test_path = directory / "y_test.npy"
+
+    if not y_test_path.exists():
+        raise FileNotFoundError(
+            f"{y_test_path} not found. Run the model notebooks first."
+        )
+
+    y_test = np.load(y_test_path)
+
+    predictions = {}
+    for path in sorted(directory.glob("*.npy")):
+        if path.name == "y_test.npy":
+            continue
+        name = path.stem.replace("_", " ")
+        y_pred = np.load(path)
+        if len(y_pred) != len(y_test):
+            raise ValueError(
+                f"{path.name} has {len(y_pred)} predictions but the test set "
+                f"has {len(y_test)} records. These models were not evaluated "
+                "on the same split and cannot be compared."
+            )
+        predictions[name] = y_pred
+
+    return predictions, y_test
+
+
+def load_all_metrics(results_dir=RESULTS_DIR, pattern="*_test_metrics.csv"):
+    """
+    Combine every saved test-metrics file into one table.
+
+    Each notebook writes its own metrics file, so this assembles the full
+    Task 6 comparison table across the LCS and conventional models.
+    """
+    directory = Path(results_dir)
+    frames = []
+
+    for path in sorted(directory.glob(pattern)):
+        frame = pd.read_csv(path)
+        frame["source_file"] = path.name
+        frames.append(frame)
+
+    if not frames:
+        raise FileNotFoundError(
+            f"No files matching {pattern} in {directory.resolve()}."
+        )
+
+    combined = pd.concat(frames, ignore_index=True)
+    if "model" in combined.columns:
+        combined = combined.set_index("model")
+    return combined
+
+
+def pairwise_mcnemar(predictions, y_test, alpha=0.05):
+    """
+    Run McNemar's test on every pair of saved models, with a
+    Holm-Bonferroni correction.
+
+    Unlike the Wilcoxon tests, which use cross-validation fold scores,
+    this compares models record by record on the held-out test set. It is
+    therefore usable for models that were run in separate notebooks and
+    for which only the predictions were saved.
+    """
+    rows = []
+    for name_a, name_b in combinations(sorted(predictions), 2):
+        result = mcnemar_test(y_test, predictions[name_a], predictions[name_b])
+        rows.append({
+            "model_a": name_a,
+            "model_b": name_b,
+            "a_right_b_wrong": result["b"],
+            "b_right_a_wrong": result["c"],
+            "statistic": result["statistic"],
+            "p_value": result["p_value"],
+            "method": result["method"],
+        })
+
+    table = pd.DataFrame(rows).sort_values("p_value").reset_index(drop=True)
+
+    m = len(table)
+    table["p_holm"] = (
+        (table["p_value"] * (m - np.arange(m))).cummax().clip(upper=1)
+    )
     table["significant"] = table["p_holm"] < alpha
     return table
