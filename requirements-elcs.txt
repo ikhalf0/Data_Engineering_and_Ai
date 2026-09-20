@@ -1,3 +1,10 @@
+# Verified eLCS environment - Python 3.9.6
+# Used for notebooks 04, 06 and 07
+#
+# /usr/bin/python3 -m venv venv39
+# source venv39/bin/activate
+# pip install -r requirements-elcs.txt
+
 anyio==4.12.1
 appnope==1.0.0
 argon2-cffi==25.1.0
