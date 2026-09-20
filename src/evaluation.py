@@ -421,6 +421,67 @@ def pairwise_wilcoxon(cv_results, metric=PRIMARY_METRIC, alpha=0.05):
     table["significant"] = table["p_holm"] < alpha
     return table
 
+
+def wilcoxon_vs_control(cv_results, control=None, metric=PRIMARY_METRIC,
+                        alpha=0.05):
+    """
+    Wilcoxon signed-rank tests comparing every model against a single
+    control model, with Holm correction.
+
+    This is the recommended post-hoc procedure when the question is
+    whether one model outperforms the others, rather than how every pair
+    relates (Demsar, 2006). It is used here because comparing all pairs
+    is statistically self-defeating with a small number of folds: with
+    10 folds the smallest possible two-sided Wilcoxon p-value is about
+    0.00195, so across 36 pairwise comparisons the Holm correction
+    multiplies it to roughly 0.070 and no comparison can reach
+    significance, even where one model wins on every single fold.
+    Comparing 8 models against one control multiplies the smallest
+    p-value by 8 rather than 36, which keeps the test able to detect a
+    real difference.
+
+    `control` defaults to the model with the best mean score on `metric`.
+    """
+    matrix = _fold_matrix(cv_results, metric)
+
+    if control is None:
+        control = matrix.mean().idxmax()
+    if control not in matrix.columns:
+        raise ValueError(
+            f"Control model '{control}' not found. Available: "
+            f"{list(matrix.columns)}"
+        )
+
+    rows = []
+    for name in matrix.columns:
+        if name == control:
+            continue
+        diff = matrix[control] - matrix[name]
+        if np.allclose(diff, 0):
+            stat, p = 0.0, 1.0
+        else:
+            stat, p = stats.wilcoxon(matrix[control], matrix[name])
+        rows.append({
+            "control": control,
+            "model": name,
+            "control_mean": matrix[control].mean(),
+            "model_mean": matrix[name].mean(),
+            "mean_diff": diff.mean(),
+            "folds_control_wins": int((diff > 0).sum()),
+            "statistic": stat,
+            "p_value": p,
+        })
+
+    table = pd.DataFrame(rows).sort_values("p_value").reset_index(drop=True)
+
+    m = len(table)
+    table["p_holm"] = (
+        (table["p_value"] * (m - np.arange(m))).cummax().clip(upper=1)
+    )
+    table["significant"] = table["p_holm"] < alpha
+    return table
+
+
 # ---------------------------------------------------------------------------
 # Reading saved results (for the Task 6 comparison)
 # ---------------------------------------------------------------------------
