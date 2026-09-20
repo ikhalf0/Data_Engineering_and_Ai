@@ -1,0 +1,4 @@
+base_model,A: class weight,B: undersampled,C: SMOTENC
+Gaussian Naive Bayes,0.6849,0.7152,0.7061
+Logistic Regression,0.7439,0.7447,0.735
+Random Forest,0.7242,0.7486,0.7015

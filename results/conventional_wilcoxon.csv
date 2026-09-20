@@ -1,0 +1,37 @@
+model_a,model_b,mean_diff,statistic,p_value,p_holm,significant
+Gaussian Naive Bayes (A),Gaussian Naive Bayes (B),-0.02793964762621757,0.0,0.001953125,0.0703125,False
+Random Forest (A),Random Forest (B),-0.022140743752601146,0.0,0.001953125,0.0703125,False
+Logistic Regression (C),Random Forest (C),0.03320125139736533,0.0,0.001953125,0.0703125,False
+Logistic Regression (C),Random Forest (B),-0.014697222795915843,0.0,0.001953125,0.0703125,False
+Logistic Regression (C),Random Forest (A),0.007443520956685301,0.0,0.001953125,0.0703125,False
+Logistic Regression (B),Random Forest (C),0.04435036130808687,0.0,0.001953125,0.0703125,False
+Logistic Regression (B),Random Forest (A),0.018592630867406847,0.0,0.001953125,0.0703125,False
+Logistic Regression (B),Logistic Regression (C),0.011149109910721544,0.0,0.001953125,0.0703125,False
+Logistic Regression (A),Random Forest (C),0.04439408480597647,0.0,0.001953125,0.0703125,False
+Logistic Regression (A),Random Forest (A),0.018636354365296447,0.0,0.001953125,0.0703125,False
+Logistic Regression (A),Logistic Regression (C),0.011192833408611148,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (C),Random Forest (C),0.007600331527843074,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (C),Random Forest (B),-0.040298142665438096,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (C),Random Forest (A),-0.018157398912836954,0.0,0.001953125,0.0703125,False
+Random Forest (A),Random Forest (C),0.025757730440680027,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (C),Logistic Regression (B),-0.0367500297802438,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (C),Logistic Regression (C),-0.025600919869522253,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (B),Random Forest (C),0.015191183180015323,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (A),Gaussian Naive Bayes (C),-0.02034879597404532,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (A),Logistic Regression (A),-0.05714254925217872,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (A),Logistic Regression (B),-0.057098825754289116,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (A),Logistic Regression (C),-0.04594971584356757,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (A),Random Forest (A),-0.03850619488688227,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (A),Random Forest (B),-0.060646938639483415,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (C),Logistic Regression (A),-0.036793753278133404,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (A),Random Forest (C),-0.012748464446202246,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (B),Logistic Regression (A),-0.029202901625961154,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (B),Logistic Regression (B),-0.02915917812807155,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (B),Logistic Regression (C),-0.018010068217350007,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (B),Random Forest (A),-0.010566547260664704,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (B),Random Forest (B),-0.032707291013265846,0.0,0.001953125,0.0703125,False
+Gaussian Naive Bayes (B),Gaussian Naive Bayes (C),0.007590851652172248,0.0,0.001953125,0.0703125,False
+Random Forest (B),Random Forest (C),0.04789847419328117,0.0,0.001953125,0.0703125,False
+Logistic Regression (B),Random Forest (B),-0.003548112885194299,4.0,0.013671875,0.0703125,False
+Logistic Regression (A),Random Forest (B),-0.0035043893873046962,5.0,0.01953125,0.0703125,False
+Logistic Regression (A),Logistic Regression (B),4.372349788960284e-05,26.0,0.921875,0.921875,False
