@@ -1,0 +1,67 @@
+model_a,model_b,a_right_b_wrong,b_right_a_wrong,statistic,p_value,method,p_holm,significant
+Logistic Regression B,Original eLCS raw,5392,11931,2467.55434970848,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes C,Random Forest C,2440,10861,5330.155627396436,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes C,Random Forest B,1922,7628,3408.065445026178,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes C,Random Forest A,2174,11737,6572.629142405291,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes C,Original eLCS raw,5974,18893,6710.689829895042,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes C,Original eLCS preprocessed,2078,7138,2777.0704210069443,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes C,Logistic Regression C,1290,7686,4556.152517825312,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes C,Logistic Regression B,1673,8053,4183.80022619782,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes C,Logistic Regression A,1682,8054,4169.026396877568,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes C,Improved eLCS,2263,7464,2779.8910249820087,0.0,chi-square (continuity corrected),0.0,True
+Logistic Regression A,Original eLCS raw,5380,11927,2475.8835153406135,0.0,chi-square (continuity corrected),0.0,True
+Logistic Regression A,Random Forest A,1332,4523,1738.0187873612297,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes B,Random Forest A,2420,5919,1467.3227005636168,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes B,Original eLCS raw,4955,11810,2802.10653146436,0.0,chi-square (continuity corrected),0.0,True
+Improved eLCS,Random Forest A,1648,6010,2483.4579524680075,0.0,chi-square (continuity corrected),0.0,True
+Improved eLCS,Original eLCS raw,5387,13105,3220.4244538178673,0.0,chi-square (continuity corrected),0.0,True
+Logistic Regression C,Original eLCS raw,5226,11749,2505.8311634756997,0.0,chi-square (continuity corrected),0.0,True
+Logistic Regression C,Random Forest A,1614,4781,1567.40516028147,0.0,chi-square (continuity corrected),0.0,True
+Original eLCS preprocessed,Original eLCS raw,5401,13260,3308.9418573495527,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes B,Gaussian Naive Bayes C,7795,1731,3858.9091958849463,0.0,chi-square (continuity corrected),0.0,True
+Original eLCS preprocessed,Random Forest A,1673,6176,2582.2402853866733,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes A,Gaussian Naive Bayes C,10826,2395,5375.153165418652,0.0,chi-square (continuity corrected),0.0,True
+Random Forest A,Random Forest B,5059,1202,2374.8180801788853,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes A,Original eLCS raw,3986,8474,1615.8241573033708,0.0,chi-square (continuity corrected),0.0,True
+Logistic Regression B,Random Forest A,1340,4523,1726.9527545625106,0.0,chi-square (continuity corrected),0.0,True
+Original eLCS raw,Random Forest B,12801,5588,2828.481374734896,0.0,chi-square (continuity corrected),0.0,True
+Original eLCS raw,Random Forest C,8768,4270,1551.0821445006902,0.0,chi-square (continuity corrected),0.0,True
+Gaussian Naive Bayes A,Original eLCS preprocessed,5991,2620,1318.882824294507,8.90721331940593e-289,chi-square (continuity corrected),3.473813194568313e-287,True
+Gaussian Naive Bayes A,Gaussian Naive Bayes B,3336,969,1300.3382113821137,9.543850932894157e-285,chi-square (continuity corrected),3.6266633544997797e-283,True
+Gaussian Naive Bayes A,Improved eLCS,5862,2632,1227.506592889098,6.418080566722511e-269,chi-square (continuity corrected),2.374689809687329e-267,True
+Original eLCS preprocessed,Random Forest C,3298,6659,1133.8354926182585,1.462291421333394e-248,chi-square (continuity corrected),5.2642491168002185e-247,True
+Improved eLCS,Random Forest C,3470,6690,1019.8780511811024,8.580966898682968e-224,chi-square (continuity corrected),3.0033384145390385e-222,True
+Original eLCS raw,Random Forest A,7787,4431,921.2657554427893,2.3386244268922624e-202,chi-square (continuity corrected),7.951323051433692e-201,True
+Random Forest B,Random Forest C,2749,5464,896.8459758918788,4.7584882595114775e-197,chi-square (continuity corrected),1.5703011256387876e-195,True
+Gaussian Naive Bayes A,Random Forest B,5927,3202,812.8136707196845,8.834172611957216e-179,chi-square (continuity corrected),2.826935235826309e-177,True
+Logistic Regression C,Random Forest C,2519,4544,580.0050969842843,3.740864966023903e-128,chi-square (continuity corrected),1.15966813946741e-126,True
+Logistic Regression A,Random Forest C,3000,5049,521.0962852528264,2.4436049517737353e-115,chi-square (continuity corrected),7.330814855321205e-114,True
+Logistic Regression B,Random Forest C,2977,5018,520.5253283302064,3.252743866952597e-115,chi-square (continuity corrected),9.432957214162531e-114,True
+Gaussian Naive Bayes B,Random Forest C,4315,6672,505.2094293255666,6.9906126277072e-112,chi-square (continuity corrected),1.957371535758016e-110,True
+Gaussian Naive Bayes A,Logistic Regression A,5224,3165,504.87114077959234,8.281681835104545e-112,chi-square (continuity corrected),2.2360540954782272e-110,True
+Gaussian Naive Bayes A,Logistic Regression B,5235,3184,499.1685473334125,1.4417100009932784e-110,chi-square (continuity corrected),3.748446002582524e-109,True
+Gaussian Naive Bayes A,Logistic Regression C,5928,3893,421.256083901843,1.3003064345795429e-93,chi-square (continuity corrected),3.2507660864488574e-92,True
+Logistic Regression B,Original eLCS preprocessed,3124,1804,353.0359172077922,9.247698417270241e-79,chi-square (continuity corrected),2.2194476201448578e-77,True
+Logistic Regression A,Original eLCS preprocessed,3128,1816,347.6377427184466,1.3853499866190315e-77,chi-square (continuity corrected),3.186304969223772e-76,True
+Logistic Regression C,Original eLCS preprocessed,3748,2412,289.3222402597403,6.986097024565651e-65,chi-square (continuity corrected),1.5369413454044431e-63,True
+Improved eLCS,Logistic Regression B,1840,3019,285.59045071002265,4.5434128751410286e-64,chi-square (continuity corrected),9.54116703779616e-63,True
+Improved eLCS,Logistic Regression A,1859,3030,279.9959091838822,7.524672420428367e-63,chi-square (continuity corrected),1.5049344840856734e-61,True
+Random Forest A,Random Forest C,3469,2327,224.6171497584541,8.898398253967531e-51,chi-square (continuity corrected),1.6906956682538309e-49,True
+Improved eLCS,Logistic Regression C,2619,3814,221.61293331260688,4.023161016693883e-50,chi-square (continuity corrected),7.24168983004899e-49,True
+Gaussian Naive Bayes A,Random Forest A,3395,4527,161.46945215854583,5.402560350031887e-37,chi-square (continuity corrected),9.184352595054208e-36,True
+Gaussian Naive Bayes B,Original eLCS preprocessed,3852,2848,150.15059701492538,1.6071000519669662e-34,chi-square (continuity corrected),2.571360083147146e-33,True
+Logistic Regression B,Random Forest B,2201,1527,121.493830472103,2.9792639409983614e-28,chi-square (continuity corrected),4.4688959114975424e-27,True
+Logistic Regression A,Random Forest B,2209,1543,117.86380597014926,1.8571197610923165e-27,chi-square (continuity corrected),2.599967665529243e-26,True
+Gaussian Naive Bayes B,Improved eLCS,3692,2829,113.94632725042172,1.338838320298468e-26,chi-square (continuity corrected),1.7404898163880084e-25,True
+Logistic Regression C,Random Forest B,2842,2152,95.0582699239087,1.848628715387264e-22,chi-square (continuity corrected),2.218354458464717e-21,True
+Original eLCS preprocessed,Random Forest B,2314,2960,78.88225255972696,6.592433616162098e-19,chi-square (continuity corrected),7.251676977778308e-18,True
+Improved eLCS,Random Forest B,2319,2824,49.39062803811005,2.09745281350819e-12,chi-square (continuity corrected),2.09745281350819e-11,True
+Gaussian Naive Bayes B,Random Forest B,3870,3512,17.264833378488216,3.2514917751016954e-05,chi-square (continuity corrected),0.0002926342597591526,True
+Gaussian Naive Bayes B,Logistic Regression B,3226,3542,14.66090425531915,0.00012868799575365555,chi-square (continuity corrected),0.0010295039660292444,True
+Gaussian Naive Bayes B,Logistic Regression A,3229,3537,13.929796039018623,0.00018976631236015677,chi-square (continuity corrected),0.0013283641865210975,True
+Gaussian Naive Bayes B,Logistic Regression C,3962,4294,13.27046996124031,0.00026961960703389274,chi-square (continuity corrected),0.0016177176422033563,True
+Improved eLCS,Original eLCS preprocessed,1556,1415,6.597105351733423,0.01021446974385021,chi-square (continuity corrected),0.051072348719251044,False
+Logistic Regression A,Logistic Regression B,122,130,0.19444444444444445,0.6592430036926307,chi-square (continuity corrected),1.0,False
+Logistic Regression A,Logistic Regression C,1516,1540,0.1731020942408377,0.6773694662863268,chi-square (continuity corrected),1.0,False
+Logistic Regression B,Logistic Regression C,1478,1494,0.07570659488559893,0.7832022940099195,chi-square (continuity corrected),1.0,False
+Gaussian Naive Bayes A,Random Forest C,5250,5240,0.007721639656816015,0.929977727125644,chi-square (continuity corrected),1.0,False
