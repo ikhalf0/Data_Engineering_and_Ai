@@ -96,25 +96,42 @@ directly comparable. The protocol is fixed and must not be changed without
 agreement from the whole group.
 
 - **Split:** stratified 80/20 train-test split, `random_state=42`
-  (202,944 training records, 50,736 test records).
+  (202,944 training records, 50,736 test records). The test set is used only
+  for final reporting.
 - **Cross-validation:** stratified 10-fold within the training set, used to
   obtain per-fold scores for statistical testing. Ten folds rather than five
   because the Wilcoxon signed-rank test with five paired observations cannot
-  reach p < 0.05.
+  produce a two-sided p-value below 0.0625 and so could never reach
+  significance. The conventional models are cross-validated; the LCS models
+  are evaluated on the held-out test set only, because a single improved-eLCS
+  run takes around 17 minutes to predict and ten-fold cross-validation of
+  three configurations would take approximately eight hours.
 - **Metrics:** accuracy, balanced accuracy, precision, recall, F1,
   specificity, ROC-AUC, PR-AUC and the confusion matrix. Balanced accuracy and
   PR-AUC are the primary metrics, because the class imbalance makes plain
-  accuracy misleading.
-- **Statistical tests:** Friedman test across models on cross-validation
-  scores, Wilcoxon signed-rank tests on pairs with Holm-Bonferroni correction,
-  and McNemar's test on held-out test predictions.
+  accuracy misleading. Records left unclassified by an LCS, where no rule
+  matches, are counted as negative predictions and reported separately.
+- **Statistical tests:** the Friedman test across models on cross-validation
+  scores; Wilcoxon signed-rank tests against the best-performing model as a
+  control, with Holm-Bonferroni correction; and McNemar's test on the held-out
+  test predictions. All-pairs Wilcoxon testing was run first and retained in
+  notebook 06, but it cannot detect a difference in this design: with 10 folds
+  the smallest possible p-value is 0.00195, so Holm correction across 36 pairs
+  raises it to 0.070 and no comparison can reach significance even where one
+  model wins on every fold. Comparing against a single control divides the
+  correction by 8 rather than 36 and is the standard post-hoc procedure for
+  this situation.
 - **Imbalance handling:** random undersampling of the majority class in the
-  training data only. SMOTE was rejected because almost all features are binary
-  or ordinal codes, so interpolation would produce impossible values and distort
-  the LCS rules that Task 7 must interpret.
+  training data only, which outperformed both class weighting and SMOTENC for
+  all three conventional models. SMOTE was rejected because almost all
+  features are binary or ordinal codes, so interpolation would produce
+  impossible values and distort the LCS rules that Task 7 must interpret.
+  SMOTENC, which samples categorical features rather than interpolating them,
+  was evaluated as a secondary comparison and performed worse.
 - **Leakage control:** the test set is held out before any preprocessing.
-  Scaling and balancing are applied inside `Pipeline` objects or through
-  `BalancedUndersampler`, so they are refitted on each training fold and never
+  Scaling and resampling are applied inside `Pipeline` objects or through the
+  `BalancedUndersampler` and `SMOTENCResampler` wrappers in
+  `src/evaluation.py`, so they are refitted on each training fold and never
   see validation or test data.
 
 ## Reproducibility
