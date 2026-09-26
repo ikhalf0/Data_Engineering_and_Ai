@@ -17,7 +17,20 @@ Validation strategy
 
 Usage (from a notebook in notebooks/):
     import sys; sys.path.append("..")
-    from src.evaluation import load_raw_data, get_train_test_split, evaluate_on_test
+    from src.evaluation import load_cleaned_data, get_train_test_split, evaluate_on_test
+
+    df = load_cleaned_data()
+    X_train, X_test, y_train, y_test = get_train_test_split(df)
+    metrics, y_pred = evaluate_on_test(model, "Model name",
+                                       X_train, y_train, X_test, y_test)
+
+All Phase 2 notebooks use load_cleaned_data(), which reads the Phase 1
+cleaned dataset. This is the minimally processed dataset referred to in
+Task 2: invalid values and inconsistent types were corrected in Phase 1,
+but no balancing, scaling, encoding or feature selection was applied.
+load_raw_data() reads the original UCI download and is available for
+verification.
+   
 """
 
 import time
