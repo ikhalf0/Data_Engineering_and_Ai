@@ -82,12 +82,12 @@ Notebooks are run in order. Each reads the output of the previous stage.
 
 | Notebook | Task | Contents |
 |---|---|---|
-| `04_original_elcs_baseline.ipynb` | 2 | Unmodified eLCS on the raw dataset; baseline results |
-| `05_data_preprocessing_feature_engineering.ipynb` | 3 | Leakage-free preprocessing and class balancing for LCS |
-| `06_conventional_models.ipynb` | 6 | Logistic Regression, Random Forest, Gaussian Naive Bayes |
-| `07_improved_elcs.ipynb` | 4 | Improved LCS-based system (planned) |
-| `08_model_comparison.ipynb` | 5, 6 | Full comparison, statistical testing, ROC/PR curves (planned) |
-| `09_interpretation.ipynb` | 7 | LCS rule analysis and explainability (planned) |
+| `04_original_elcs_baseline.ipynb` | 2 | Unmodified eLCS on the minimally processed dataset and baseline evaluation |
+| `05_data_preprocessing_feature_engineering.ipynb` | 3 | Leakage-free preprocessing, class balancing, feature preparation and SMOTENC comparison |
+| `06_conventional_models.ipynb` | 6 | Logistic Regression, Random Forest and Gaussian Naive Bayes evaluation |
+| `07_improved_elcs_system.ipynb` | 4 | Improved eLCS configuration, validation-based tuning and final evaluation |
+| `08_lcs_evaluation_and_comparison.ipynb` | 5, 6 | Common evaluation, full model comparison, statistical testing and precision–recall analysis |
+| `09_interpretation_of_results.ipynb` | 7 | eLCS rule analysis, explainability and trustworthiness discussion |
 
 ## Experimental Protocol
 
@@ -130,9 +130,9 @@ agreement from the whole group.
 
 | Member | Phase I | Phase II |
 |---|---|---|
-| Simon | Data acquisition and inspection | Original eLCS baseline (Task 2, 4, 7, 8) |
-| Khlaf | Data cleaning and transformation | Experimental design and model comparison (Tasks 5, 6, 7, 8) |
-| Aman | Exploratory data analysis | Preprocessing and feature engineering (Task 1, 3, 7, 8) |
+| Simon | Data acquisition and inspection | Original eLCS baseline (Task 2, 4, 7) |
+| Khlaf | Data cleaning and transformation | Experimental design and model comparison (Tasks 5, 6, 7) |
+| Aman | Exploratory data analysis | Preprocessing and feature engineering (Task 1, 3, 6, 8) |
 
 Work is developed on individual branches (`Simon-branch`, `khalf-branch`,
 `Aman-branch`) and merged into `main`. All code required for the final
