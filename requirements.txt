@@ -1,5 +1,14 @@
-# Analysis environment (notebooks 01-03, 05, 06)
+# Analysis environment (notebooks 01-03, 05)
 # Python 3.12 or newer
+#
+# This environment does NOT include scikit-eLCS and cannot run the LCS
+# notebooks (04, 06, 07, 08, 09). For those, use requirements-elcs.txt,
+# which sets up a Python 3.9 environment that runs every notebook in the
+# project:
+#
+#   python3 -m venv venv39
+#   source venv39/bin/activate
+#   pip install -r requirements-elcs.txt
 
 numpy==2.5.2
 pandas==3.0.5
