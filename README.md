@@ -30,41 +30,61 @@ predictions need to be explainable rather than only accurate.
 - **Class balance:** 86.07% class 0, 13.93% class 1
 - **License:** See UCI dataset page for terms of use
 
+## Key Results
+
+All twelve models were evaluated on the same held-out test set of 50,736 records.
+
+| Model | Balanced accuracy | Recall |
+|---|---|---|
+| Random Forest (undersampled) | 0.7486 | 0.7905 |
+| Improved eLCS | 0.7309 | 0.7621 |
+| Original eLCS (preprocessed data) | 0.7302 | 0.7640 |
+| Original eLCS (minimally processed data) | 0.5000 | 0.0000 |
+
+The baseline eLCS reached 86.06% accuracy while detecting none of the 7,069
+positive cases, which is why balanced accuracy is used as the primary metric.
+Almost all of the improvement came from balancing the training data rather than
+from the changes to the LCS configuration: the difference between the improved
+eLCS and the original eLCS on preprocessed data was not statistically
+significant (McNemar, p = 0.0511).
+
 ## Repository Structure
 
 ```
 data/
   raw/                  Raw download from UCI (not committed; see Setup)
   processed/
-    diabetes_cleaned.csv              Phase I cleaned dataset
+    diabetes_cleaned.csv                   Phase I cleaned dataset
     elcs/
-      diabetes_elcs_training_balanced.csv   Balanced training set (Task 3)
-      diabetes_elcs_test_unchanged.csv      Held-out test set (Task 3)
+      diabetes_elcs_training_balanced.csv  Undersampled training set (Task 3)
+      diabetes_elcs_training_smotenc.csv   SMOTENC oversampled training set (Task 3)
+      diabetes_elcs_test_unchanged.csv     Held-out test set (Task 3)
 notebooks/              Analysis pipeline, run in numerical order
-results/                Exported metrics, fold scores and predictions
+results/                Exported metrics, predictions and rules (see results/README.md)
 reports/                Report, pipeline diagram, contribution statement
 src/
   load_data.py          Downloads the dataset from UCI
   evaluation.py         Shared split, metrics, cross-validation, statistical tests
-requirements.txt        Python environment
+requirements.txt        Analysis environment (Python 3.12+)
+requirements-elcs.txt   eLCS environment (Python 3.9), runs every notebook
 ```
 
 ## Setup
 
-```bash
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-python src/load_data.py         # downloads data/raw/diabetes_raw.csv
-```
-
-The LCS work additionally requires `scikit-eLCS`, which needs an older Python
-version (3.9) than the rest of the pipeline:
+Two environments are provided because `scikit-eLCS` does not run on recent
+Python versions. The Python 3.9 environment runs every notebook in the project
+and is the one used to produce the committed results.
 
 ```bash
-pip install scikit-eLCS
+python3.9 -m venv venv39
+source venv39/bin/activate          # Windows: venv39\Scripts\activate
+pip install -r requirements-elcs.txt
+
+python src/load_data.py             # downloads data/raw/diabetes_raw.csv
 ```
+
+`requirements.txt` sets up a Python 3.12+ environment with current library
+versions. It runs notebooks 01 to 03 and 05 but cannot run the LCS notebooks.
 
 ## Pipeline
 
@@ -104,7 +124,7 @@ agreement from the whole group.
   produce a two-sided p-value below 0.0625 and so could never reach
   significance. The conventional models are cross-validated; the LCS models
   are evaluated on the held-out test set only, because a single improved-eLCS
-  run takes around 17 minutes to predict and ten-fold cross-validation of
+  run takes around 16 minutes to predict and ten-fold cross-validation of
   three configurations would take approximately eight hours.
 - **Metrics:** accuracy, balanced accuracy, precision, recall, F1,
   specificity, ROC-AUC, PR-AUC and the confusion matrix. Balanced accuracy and
@@ -139,19 +159,21 @@ agreement from the whole group.
 - All random operations use `random_state=42`.
 - Metrics, fold scores and test-set predictions are exported to `results/`, so
   the comparison and statistical tests can be reproduced without refitting any
-  model.
-- eLCS runs are slow. Expect several minutes per fit, and roughly 15-20 minutes
-  for a 10-fold cross-validation of one LCS configuration.
+  model. See `results/README.md` for what each file contains.
+- eLCS runs are slow. Prediction dominates, because every test record is
+  matched against the full rule population: the improved eLCS takes around
+  75 seconds to train and 16 minutes to predict on 50,736 records. Notebook 08
+  takes roughly 25 to 45 minutes in total; notebook 06 takes 30 to 60 minutes,
+  mostly for the SMOTENC cross-validation.
 
 ## Team and Contributions
 
 | Member | Phase I | Phase II |
 |---|---|---|
-| Simon | Data acquisition and inspection | Original eLCS baseline (Task 2, 4, 7) |
-| Khlaf | Data cleaning and transformation | Experimental design and model comparison (Tasks 5, 6, 7) |
-| Aman | Exploratory data analysis | Preprocessing and feature engineering (Task 1, 3, 6, 8) |
+| Simon Aung | Data acquisition and inspection | Original eLCS baseline and improved eLCS system (Tasks 2, 4) |
+| Khlaf Alshammari | Data cleaning and transformation | Shared evaluation module, experimental design, model comparison and rule interpretation (Tasks 5, 6, 7) |
+| Aman Mohammed | Exploratory data analysis | Phase I summary, preprocessing and feature engineering, discussion (Tasks 1, 3, 8) |
 
 Work is developed on individual branches (`Simon-branch`, `khalf-branch`,
 `Aman-branch`) and merged into `main`. All code required for the final
 submission lives on `main`.
-
